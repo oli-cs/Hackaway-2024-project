@@ -1,33 +1,60 @@
 from taipy.gui import notify, Gui
 
-
-counter = 0
-
 def on_change(state, var_name, var_value):
-    if var_name == "text" and var_value == "Reset":
-        state.text = ""
+    if var_name == "mansion_select":
+        print(var_value)
+        #switch statement
         return
-
-def button_pressed(state):
-    # React to the button press action
-    global counter
-    print("Running...")
-    notify(state, "info", "Interesting choice...")
-    #state.text = oldText + """## Button Pressed\\"""
-    state.text = "test"
-    print(state.text)
-    counter += 1
+    if var_name == "garden_select":
+        print(var_value)
+        return
 
 root_md = """
 <|navbar|>
 # EPIC COL GAME !!!1
 """
 
-text = "text!!"
 
-page1_md = "## <|{text}|>\n <|Button1|button|on_action=button_pressed|><|Button2|button|class_name=plain|>"
-page2_md = "## This is page 2\n <|Button3|button|on_action=button_pressed|><|Button4|button|class_name=plain|>"
-page3_md = """## This is BLAHAJ\n\n
+status = [
+    "E",
+    "LOCKED"
+]
+
+mansion_text = ""
+garden_text = ""
+mansion_select = "Select an Item to Inspect"
+garden_select = "Select an Item to Inspect"
+greenhouse = "some, data, ??"
+
+page1_md = "You find yourself locked in a mansion.\n\n <|{mansion_select}|selector|lov=Select an Item to Inspect;Mailbox;Painting;Party RSPV;Lampshade;Rug|dropdown|>\n"
+page2_md = "You enter a garden.\n\n <|{garden_select}|selector|lov=Select an Item to Inspect;Greenhouse;Plant pots;Pond;Statue;Overgrown grass|dropdown|><|{greenhouse}|table|>\n"
+page3_md = """  <|{status}|status|> \n
+
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢖⠲⣶⡒⠒⣲⣶⡒⡲⠖⠚⡶⢦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡴⠲⣏⣅⠊⠀⠘⠃⠸⣿⣯⠳⠘⠂⠀⠘⣂⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣳⠘⠶⢏⠻⣷⣼⣲⣤⣶⣿⣧⣁⣔⣁⣁⣴⣿⡁⡹⠰⠉⢳⡆⠀⠀⠀⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⠀⠀⣀⣼⡁⠐⠂⡄⣼⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⣤⢀⣼⣷⢤⡄⠀⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⢰⢋⠽⡐⠛⠓⢦⣿⣿⣿⣿⣿⢿⣿⣿⣿⠛⡟⣿⣿⣿⣿⣿⣿⣵⠿⠋⢡⡙⢸⣿⠀⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⠸⣮⣴⣠⡀⣴⣿⣿⣿⣿⣿⠛⡇⣿⠨⠇⠀⣇⠋⢻⡇⣿⣿⣿⣿⣿⣔⢤⣴⣾⣟⠀⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⣾⣉⠈⠉⢻⣿⣿⣿⣿⠈⣿⠈⠁⡏⠀⡅⢀⣟⠀⢸⡇⠇⡟⠹⣿⣿⡿⢩⡵⠄⢹⣷⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⣿⠀⠤⠀⢼⣿⣿⡿⢋⠀⣟⠀⠃⡇⠀⡃⠠⡇⢰⠀⡇⠀⡇⠀⡿⣿⡧⠀⠁⢈⣭⣿⡇⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⣿⠀⠀⣰⣿⣿⣿⣷⠘⠃⡿⠀⡇⣇⢠⣀⣀⡇⠀⠀⣇⡀⡧⠀⡇⣿⣿⣤⣿⡭⢾⣿⠁⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⢹⡶⠾⠾⣿⣿⣿⣿⠀⠤⢧⠀⠀⣷⣿⣿⢷⣿⣆⢀⡇⡀⡇⠇⣿⣿⢁⡄⠉⠀⢸⣿⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⣿⠀⢀⠍⢭⣿⣿⣿⣶⣿⣾⣾⣷⣿⣻⡇⢸⣟⣿⣾⣿⣷⣿⣤⡅⣿⣦⣤⡼⣶⣿⡇⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⣽⠟⠛⠟⢿⣿⣿⣿⡟⠭⣿⠛⠟⣟⢿⣷⣞⣿⡿⢻⠻⠟⡏⠁⣄⡟⠹⠇⢠⠘⢻⡧⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⣧⢀⣄⠀⠾⣿⣿⣿⡇⠀⡷⠀⠀⣿⡀⠈⠉⡟⠁⢸⠂⠀⡇⡴⣿⣇⣇⣁⣲⣴⣼⡿⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⡿⠈⠉⡆⣠⣿⣿⣿⠃⠈⢻⠀⠀⡇⠃⠀⠀⡏⠀⢸⣠⣴⡿⣯⣿⣿⠟⢭⠽⠉⢹⡇⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⢻⡼⠶⢦⣿⣿⣿⢿⠅⠀⢸⣀⠀⡇⠀⠠⠀⡇⠀⢸⠳⡿⣿⣿⣿⣿⣶⠶⠦⢶⣿⠇⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⢸⠀⢲⢱⡟⣿⣿⣾⡞⠀⢸⠀⢠⡇⠀⠀⡄⡇⠀⢸⢇⡀⡟⢿⢿⣿⠁⠀⢀⠘⣿⡇⠀⠀⠀⠀⠀\n
+⠀⠀⠀⠀⠀⢻⣄⣠⣤⣤⣿⣿⣿⡷⣿⣾⣶⣿⣷⣶⡶⣶⣷⣿⣾⣶⣿⣷⣤⢸⣿⣤⣤⣨⣶⣿⠇⠀⠀⠀⠀⠀\n
+⠀⠀⠀⣆⣴⢱⡏⡀⠨⢿⣿⣿⣿⣿⣿⣿⢻⡟⡟⠛⢛⡛⡟⠿⢻⣻⠟⣯⢨⢸⣿⠉⠁⠰⡞⣿⡇⠀⠀⠀⠀⠀\n
+⠀⠙⢶⣿⣿⣿⢧⣤⣦⣼⣿⣿⣿⡇⢀⢸⠁⢀⡇⠀⠌⠁⣷⠀⢸⡇⢀⣿⠘⣾⣿⢷⣬⣥⣷⣿⡇⠀⠀⠀⠀⠀\n
+⠀⢰⣿⠫⢿⣤⣰⠟⠻⣾⣿⣿⣿⣷⣾⣿⣼⣾⣷⣶⣧⣶⣿⣶⣾⣷⣾⣿⣷⣿⢉⣧⣤⠞⠛⣿⣿⣰⡀⡀⠀⠀\n
+⠀⢤⣿⣗⡀⣝⢯⣧⣁⢸⣿⣿⣿⠿⠿⠿⢿⡟⣛⢛⡛⢛⣛⣛⣛⠻⠿⢿⣿⡟⣋⢟⣥⡔⣐⢿⣿⣿⣟⢇⡀⠀\n
+⠘⠚⠛⠛⠛⠿⠟⠻⠛⠿⠛⠋⣛⣳⠒⡒⢽⠮⠿⠒⠒⠒⠂⠨⣟⡷⠢⣦⣍⣙⣛⡫⠭⠛⠛⠛⠿⠿⠟⠛⠓⠂\n
+⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠉⠒⠒⠀⠁⠈⠀⠐⠈⠁⠛⠛⠛⠒⠒⠒⠀⢠⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀\n\n\n
+
+This is BLAHAJ\n\n
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
 ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
@@ -41,14 +68,18 @@ page3_md = """## This is BLAHAJ\n\n
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣤⣤⣘⡛⠿⢿⡿⠟⠛⠉⠁⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣦⠀⠀\n
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢿⣿⣿⣿⣿⣿⣶⣦⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⡄⠀\n
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⠿⠛⠉⠁⠀⠈⠉⠙⠛⠛⠻⠿⠿⠿⠿⠟⠛⠃⠀⠀⠀⠉⠉⠉⠛⠛⠛⠿⠿⠿⣶⣦⣄⡀⠀⠀⠀⠀⠀⠈⠙⠛⠂\n
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠿⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀\n"""
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠿⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀\n
+
+"""
 
 pages = {
     "/": root_md,
-    "page1": page1_md,
-    "page2": page2_md,
-    "BLAHAJ": page3_md
+    "Mansion": page1_md,
+    "Garden": page2_md,
+    "Exit": page3_md
 }
 
-Gui(pages=pages).run()
+
+gui = Gui(pages=pages)
+gui.run()
 
