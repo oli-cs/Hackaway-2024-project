@@ -3,13 +3,13 @@ from pyautogui import press
 
 # user interaction function
 def on_change(state, var_name, var_value):
-    # mansion object selection
+    # declared globally in order to preserve the changes to their value
     global mailbox_locked
     global greenhouse
     global mailbox_created
     global statue_created
 
-
+    # mansion object selection
     if var_name == "mansion_select":
         match var_value :
             case  "Mailbox": 
@@ -18,7 +18,7 @@ def on_change(state, var_name, var_value):
                     state.mansion_text2 = "A wire leads out the back of it and into the wall connecting to the garden."
                     return
                 
-                state.mansion_text = "You look inside the mailbox. There is a single letter."
+                state.mansion_text = "You look inside the mailbox. There is a single letter written entirely in latin."
                 state.mansion_text2 = ""
                 state.mailbox_pane = True
                 if not mailbox_created:
@@ -45,6 +45,8 @@ def on_change(state, var_name, var_value):
     if var_name == "garden_select":
         match var_value :
             case  "Greenhouse": 
+                state.garden_text = "Despite the largley abandoned and uncared for feel of the rest of the house, this greenhouse, standing proundly at the back of the garden, appears to be looked after for regularly."
+                state.garden_text2 = "A log book for the plants lies by the entrance. For each plant, the latin family name and the code are recorded inside."
                 state.greenhouse = [["Plant","Family","id"],
                                     ["Tulip","Liliaceae","23"],["Lavender","Lamiaceae","45"],
                                     ["Garlic","Liliaceae","37"],["Water Spinach","Convolvulaceae","36"],
@@ -92,15 +94,13 @@ def on_change(state, var_name, var_value):
                 gui.add_page("Blahaj",page4_md)
                 return
 
-    # if slide value is correct then the mail box unlocks
+    # if switches are correct then the mail box unlocks
     if var_name == "toggle1" or var_name == "toggle2" or var_name == "toggle3" or var_name == "toggle4":
         if state.toggle1 == "On" and state.toggle2 == "Off" and state.toggle3 == "Off" and state.toggle4 == "On":
             mailbox_locked = False
-            print("good")
             return
         else:
             mailbox_locked = True
-            print("bad - " + state.toggle1 + state.toggle2 + state.toggle3 + state.toggle4)
             return
 
 # root directory - web page title
