@@ -20,7 +20,7 @@ def on_change(state, var_name, var_value):
                 state.mansion_text = "You look in the mailbox. There is a single letter."
                 state.mailbox_pane = True
                 if not mailbox_created:
-                    gui.add_page("Mail_Pane",mailbox_text)
+                    gui.add_page("Mail_Pane",mailbox_text,"main.css")
                 return
             case "Painting":
                 state.mansion_text = "You walk up to a painting. You see a note sticking out of its frame. It reads 42."
@@ -63,7 +63,7 @@ def on_change(state, var_name, var_value):
             
                 state.statue_pane = True
                 if not statue_created:
-                    gui.add_page("Statue_Slider",statue_slider)
+                    gui.add_page("Statue_Slider",statue_slider,"main.css")
                 return
             case "Overgrown grass":
                 state.garden_text = "You step into the grass. It is too thick to go further."
@@ -94,7 +94,7 @@ def on_change(state, var_name, var_value):
 # root directory - web page title
 root_md =  """     
 <|navbar|>
-# EPIC COL GAME !!!1
+# MANSION ESCAPE
 """
 
 # status of the final door - initially locked
@@ -133,11 +133,11 @@ mailbox_text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Quisque sit amet risus neque. 
                 Ut suscipit neque ac quam rhoncus, varius tincidunt purus sollicitudin. 
                 Cras in dignissim tortor, sit amet maximus tortor."""
-statue_slider = "<|{slideVal}|slider|width=1600px|height=250px|id='statueSlider'|text_anchor=bottom|>"
+statue_slider = "⠀⠀\n<|{slideVal}|slider|width=1600px|height=250px|id='statueSlider'|text_anchor=left|>"
 
 # page layouts - unchangable other than variables
 page1_md = "You find yourself locked in a mansion.\n\n <|{mansion_select}|selector|lov=Select an Item to Inspect;Mailbox;Painting;Party RSVP;Lampshade;Rug|dropdown|>\n<|{mailbox_pane}|pane|anchor=right|page=Mail_Pane|>\n<|{mansion_text}|text|>\n"
-page2_md = "You enter a garden.\n\n <|{garden_select}|selector|lov=Select an Item to Inspect;Greenhouse;Plant pots;Pond;Statue;Overgrown grass|dropdown|>\n\n<|{garden_text}|text|><|{statue_pane}|pane|anchor=top|page=Statue_Slider|>\n<|{greenhouse}|table|>\n\n"
+page2_md = "You enter a garden.\n\n <|{garden_select}|selector|lov=Select an Item to Inspect;Greenhouse;Plant pots;Pond;Statue;Overgrown grass|dropdown|>\n\n<|{garden_text}|text|>\n\n\n<|{statue_pane}|pane|anchor=top|page=Statue_Slider|>\n<|{greenhouse}|table|>\n\n"
 page3_md = """  \n<|{passcode}|number|><|{status}|status|>\n<|{door_text}|text|>\n<|{door_dialog}|dialog|page=Blahaj|>
 
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢖⠲⣶⡒⠒⣲⣶⡒⡲⠖⠚⡶⢦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
@@ -196,7 +196,7 @@ pages = {
 }
 
 # generates the graphical user interface
-gui = Gui(pages=pages)
+gui = Gui(pages=pages,css_file="main.css")
 gui.run(use_reloader=True)
 
 
