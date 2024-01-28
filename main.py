@@ -84,7 +84,7 @@ def on_change(state, var_name, var_value):
 
     # if slide value is correct then the mail box unlocks
     if var_name == "slideVal":
-        if var_value == 100:
+        if var_value == 42:
             mailbox_locked = False
             return
         else:
