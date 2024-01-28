@@ -14,7 +14,7 @@ def on_change(state, var_name, var_value):
             case "Painting":
                 state.mansion_text = "Painting"
             case "Party RSVP":
-                state.mansion_text = "Party RSVP"
+                state.mansion_text = "You flip over an invite."
             case "Lampshade":
                 state.mansion_text = "You look under the lampshade. There is nothing but dust and cobwebs."
             case "Rug":
@@ -43,8 +43,6 @@ def on_change(state, var_name, var_value):
                 state.garden_text = "You look into the pond. Fishes are staring back at you."
             case "Statue":
                 state.garden_text = "Statue"
-                state.pain = True #SET PAIN TO TRUE HERE
-                #PAIN HERE AAAAAAHAHHHAHAHHHHH
             case "Overgrown grass":
                 state.garden_text = "You step into the grass. It is too thick to go further."
         return
@@ -56,7 +54,9 @@ def on_change(state, var_name, var_value):
                     "S",
                     "UNLOCKED"
                 ]
-                state.door_text = "You enter the code and hear a door click."
+                state.door_text = "You enter the code and hear the door click."
+                state.door_dialog = True
+                gui.add_page("Blahaj",page4_md)
 
 root_md = """
 <|navbar|>
@@ -73,6 +73,7 @@ greenhouse = []
 mansion_text = ""
 garden_text = ""
 door_text = ""
+door_dialog = False
 pain = builder.pane(open=False)
 value = 0
 mansion_select = "Select an Item to Inspect"
@@ -80,9 +81,9 @@ garden_select = "Select an Item to Inspect"
 passcode = 0
 
 
-page1_md = "You find yourself locked in a mansion.\n\n <|{mansion_select}|selector|lov=Select an Item to Inspect;Mailbox;Painting;Party RSVP;Lampshade;Rug|dropdown|>\n\n<|{mansion_text}|text|>\n<|{passcode}|number|>\n<|{door_text}|text|>\n"
-page2_md = "You enter a garden.\n\n <|{garden_select}|selector|lov=Select an Item to Inspect;Greenhouse;Plant pots;Pond;Statue;Overgrown grass|dropdown|>\n\n<|{garden_text}|text|>\n<|{greenhouse}|table|>\n<|{pain}|pane|open=False|>\n"
-page3_md = """  <|{status}|status|> \n
+page1_md = "You find yourself locked in a mansion.\n\n <|{mansion_select}|selector|lov=Select an Item to Inspect;Mailbox;Painting;Party RSVP;Lampshade;Rug|dropdown|>\n\n<|{mansion_text}|text|>\n"
+page2_md = "You enter a garden.\n\n <|{garden_select}|selector|lov=Select an Item to Inspect;Greenhouse;Plant pots;Pond;Statue;Overgrown grass|dropdown|>\n\n<|{garden_text}|text|>\n<|{greenhouse}|table|>\n<|{pain}|pane|anchor=right|>\n"
+page3_md = """  \n<|{passcode}|number|><|{status}|status|>\n<|{door_text}|text|>\n<|{door_dialog}|dialog|page=Blahaj|>
 
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢖⠲⣶⡒⠒⣲⣶⡒⡲⠖⠚⡶⢦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡴⠲⣏⣅⠊⠀⠘⠃⠸⣿⣯⠳⠘⠂⠀⠘⣂⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
@@ -106,7 +107,11 @@ page3_md = """  <|{status}|status|> \n
 ⠀⢰⣿⠫⢿⣤⣰⠟⠻⣾⣿⣿⣿⣷⣾⣿⣼⣾⣷⣶⣧⣶⣿⣶⣾⣷⣾⣿⣷⣿⢉⣧⣤⠞⠛⣿⣿⣰⡀⡀⠀⠀\n
 ⠀⢤⣿⣗⡀⣝⢯⣧⣁⢸⣿⣿⣿⠿⠿⠿⢿⡟⣛⢛⡛⢛⣛⣛⣛⠻⠿⢿⣿⡟⣋⢟⣥⡔⣐⢿⣿⣿⣟⢇⡀⠀\n
 ⠘⠚⠛⠛⠛⠿⠟⠻⠛⠿⠛⠋⣛⣳⠒⡒⢽⠮⠿⠒⠒⠒⠂⠨⣟⡷⠢⣦⣍⣙⣛⡫⠭⠛⠛⠛⠿⠿⠟⠛⠓⠂\n
-⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠉⠒⠒⠀⠁⠈⠀⠐⠈⠁⠛⠛⠛⠒⠒⠒⠀⢠⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀\n\n\n
+⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠉⠒⠒⠀⠁⠈⠀⠐⠈⠁⠛⠛⠛⠒⠒⠒⠀⢠⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
+
+"""
+
+page4_md = """ <|{status}|status|> \n
 
 This is BLAHAJ\n\n
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
@@ -130,10 +135,10 @@ pages = {
     "/": root_md,
     "Mansion": page1_md,
     "Garden": page2_md,
-    "Exit": page3_md
+    "Exit": page3_md,
 }
-
 
 gui = Gui(pages=pages)
 gui.run(use_reloader=True)
+
 
