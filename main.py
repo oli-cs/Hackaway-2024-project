@@ -45,19 +45,12 @@ def on_change(state, var_name, var_value):
     if var_name == "garden_select":
         match var_value :
             case  "Greenhouse": 
-                state.garden_text = "Despite the largley abandoned and uncared for feel of the rest of the house, this greenhouse, standing proundly at the back of the garden, appears to be looked after for regularly."
+                state.garden_text = "Despite the largley abandoned and uncared for feel of the rest of the house, this greenhouse, standing proudly at the back of the garden, appears to be looked after regularly."
                 state.garden_text2 = "A log book for the plants lies by the entrance. For each plant, the latin family name and the code are recorded inside."
-                state.greenhouse = [["Plant","Family","id"],
-                                    ["Tulip","Liliaceae","23"],["Lavender","Lamiaceae","45"],
-                                    ["Garlic","Liliaceae","37"],["Water Spinach","Convolvulaceae","36"],
-                                    ["Morning Glory","Convolvulaceae","84"],["Lily","Liliaceae","08"],
-                                    ["Lettuce","Asteraceae","43"],["Oregano","Lamiaceae","92"],
-                                    ["Dahlia","Lamiaceae","26"],["Onion","Liliaceae","75"],
-                                    ["Chicory","Asteraceae","28"],["Sweet Potato","Convolvulaceae","54"],
-                                    ["Mint","Lamiaceae","64"],["Asparagus","Liliaceae","78"],
-                                    ["Aloe Vera","Liliaceae","95"],["Basil","Lamiaceae","04"],
-                                    ["Sunflower","Asteraceae","15"],["Thyme","Lamiaceae","33"],
-                                    ["Bindweed","Convolvulaceae","86"],["Daisy","Asteraceae","52"]]
+                state.greenhouse = {"Plant":["Tulip","Lavender","Garlic","Water Spinach","Morning Glory","Lily","Lettuce","Oregano","Dahlia","Onion","Chicory","Sweet Potato","Mint","Asparagus","Aloe Vera","Basil","Sunflower","Thyme","Bindweed","Daisy"],
+                                    "Family":["Liliaceae","Lamiaceae","Liliaceae","Convolvulaceae","Convolvulaceae","Liliaceae","Asteraceae","Lamiaceae","Lamiaceae","Liliaceae","Asteraceae","Convolvulaceae","Lamiaceae","Liliaceae","Liliaceae","Lamiaceae","Asteraceae","Lamiaceae","Convolvulaceae","Asteraceae"],
+                                    "ID":["23","45","37","36","84","08","43","92","26","75","28","54","64","78","95","04","15","33","86","52"]}
+
                 press("f5")
                 return
             case "Plant pots":
@@ -74,7 +67,7 @@ def on_change(state, var_name, var_value):
                 
                 state.statue_pane = True
                 if not statue_created:
-                    gui.add_page("Statue_Slider",statue_slider)
+                    gui.add_page("Switches",statue_slider)
                 return
             case "Overgrown grass":
                 state.garden_text = "You step into the grass. It is too thick to go further."
@@ -154,7 +147,7 @@ statue_slider = "<|{toggle1}|toggle|lov=On;Off|unselected_value=Off|><|{toggle2}
 
 # page layouts - unchangable other than variables
 page1_md = "You find yourself locked in a mansion.\n\n <|{mansion_select}|selector|lov=Select an Item to Inspect;Mailbox;Painting;Party RSVP;Lampshade;Rug|dropdown|>\n<|{mailbox_pane}|pane|anchor=right|page=Mail_Pane|>\n\n<|{mansion_text}|text|>\n\n<|{mansion_text2}|text|>\n"
-page2_md = "You enter a garden.\n\n <|{garden_select}|selector|lov=Select an Item to Inspect;Greenhouse;Plant pots;Pond;Statue;Overgrown grass|dropdown|>\n\n<|{garden_text}|text|>\n\n<|{garden_text2}|text|>\n\n<|{statue_pane}|pane|anchor=top|page=Statue_Slider|>\n<|{greenhouse}|table|>\n\n"
+page2_md = "You enter a garden.\n\n <|{garden_select}|selector|lov=Select an Item to Inspect;Greenhouse;Plant pots;Pond;Statue;Overgrown grass|dropdown|>\n\n<|{garden_text}|text|>\n\n<|{garden_text2}|text|>\n\n<|{statue_pane}|pane|anchor=top|page=Switches|>\n<|{greenhouse}|table|>\n\n"
 page3_md = """  <|{door_text}|text|>\n\n<|{passcode}|number|><|{status}|status|>\n<|{door_dialog}|dialog|page=Blahaj|>\n
 
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢖⠲⣶⡒⠒⣲⣶⡒⡲⠖⠚⡶⢦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n
