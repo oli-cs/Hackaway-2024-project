@@ -23,7 +23,7 @@ def on_change(state, var_name, var_value):
                     gui.add_page("Mail_Pane",mailbox_text,"main.css")
                 return
             case "Painting":
-                state.mansion_text = "You walk up to a painting. You see a note sticking out of its frame. It reads 42."
+                state.mansion_text = "You walk up to a painting. You see a note sticking out of its frame. It reads 1001."
                 return
             case "Party RSVP":
                 state.mansion_text = "You flip over an invite. Blank."
@@ -59,11 +59,11 @@ def on_change(state, var_name, var_value):
                 state.garden_text = "You look into the pond. Fishes are staring back at you."
                 return
             case "Statue":
-                state.garden_text = "You notice a statue. Upon closer look, you see a control fixed to the back of it."
+                state.garden_text = "You notice a statue. Upon closer look, you see a control fixed to the back of it with a series of switched lining it."
             
                 state.statue_pane = True
                 if not statue_created:
-                    gui.add_page("Statue_Slider",statue_slider,"main.css")
+                    gui.add_page("Statue_Slider",statue_slider)
                 return
             case "Overgrown grass":
                 state.garden_text = "You step into the grass. It is too thick to go further."
@@ -83,12 +83,14 @@ def on_change(state, var_name, var_value):
                 return
 
     # if slide value is correct then the mail box unlocks
-    if var_name == "slideVal":
-        if var_value == 42:
+    if var_name == "toggle1" or var_name == "toggle2" or var_name == "toggle3" or var_name == "toggle4":
+        if state.toggle1 == "On" and state.toggle2 == "Off" and state.toggle3 == "Off" and state.toggle4 == "On":
             mailbox_locked = False
+            print("good")
             return
         else:
             mailbox_locked = True
+            print("bad - " + state.toggle1 + state.toggle2 + state.toggle3 + state.toggle4)
             return
 
 # root directory - web page title
@@ -114,7 +116,10 @@ mailbox_pane = False
 statue_pane = False
 mailbox_locked = True
 value = 0
-slideVal = 0
+toggle1 = ""
+toggle2 = ""
+toggle3 = ""
+toggle4 = ""
 mansion_select = "Select an Item to Inspect"
 garden_select = "Select an Item to Inspect"
 passcode = 0
@@ -133,7 +138,10 @@ mailbox_text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Quisque sit amet risus neque. 
                 Ut suscipit neque ac quam rhoncus, varius tincidunt purus sollicitudin. 
                 Cras in dignissim tortor, sit amet maximus tortor."""
-statue_slider = "⠀⠀\n<|{slideVal}|slider|width=1600px|height=250px|id='statueSlider'|text_anchor=left|>"
+
+statue_slider = "<|{toggle1}|toggle|lov=On;Off|unselected_value=Off|><|{toggle2}|toggle|lov=On;Off|unselected_value=Off|><|{toggle3}|toggle|lov=On;Off|unselected_value=Off|><|{toggle4}|toggle|lov=On;Off|unselected_value=Off|>"
+
+#statue_slider = "⠀⠀\n<|{slideVal}|slider|width=1600px|height=250px|id='statueSlider'|text_anchor=left|>"
 
 # page layouts - unchangable other than variables
 page1_md = "You find yourself locked in a mansion.\n\n <|{mansion_select}|selector|lov=Select an Item to Inspect;Mailbox;Painting;Party RSVP;Lampshade;Rug|dropdown|>\n<|{mailbox_pane}|pane|anchor=right|page=Mail_Pane|>\n<|{mansion_text}|text|>\n"
